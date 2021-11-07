@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Checkout extends Model
 {
@@ -17,4 +18,20 @@ class Checkout extends Model
         'cvc',
         'is_paid'
     ];
+
+    public function setExpiredAttribute($value)
+    {
+        # code...
+        $this->attributes['expired'] = date('Y-m-t', strtotime($value));
+    }
+
+    /**
+     * Get the Camp that owns the HomeController
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function Camp(): BelongsTo
+    {
+        return $this->belongsTo(Camp::class);
+    }
 }

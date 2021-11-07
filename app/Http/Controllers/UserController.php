@@ -32,7 +32,7 @@ class UserController extends Controller
             'name' => $callback->getName(),
             'email' => $callback->getEmail(),
             'avatar' => $callback->getAvatar(),
-            'email_verfied_at' => date('Y-m-d H:i:s', time()),
+            'email_verified_at' => date('Y-m-d H:i:s', time()),
         ];
         $user = User::firstOrCreate(['email' => $data['email']], $data);
         Auth::login($user, true);
