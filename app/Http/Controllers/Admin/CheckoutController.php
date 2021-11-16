@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Checkout;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Checkout\Paid;
 
 class CheckoutController extends Controller
 {
@@ -15,6 +16,10 @@ class CheckoutController extends Controller
         # code...
         $checkout->is_paid = true;
         $checkout->save();
+
+        // Send Mail To User
+        Mail::to($checkout->User->email)->send(new Paid($checkout));
+
         $request->session()->flash('success', "Checkout With ID {$checkout->id} Has Been Updated!");
         // return $checkout;
         return redirect(route('admin.dashboard'));
